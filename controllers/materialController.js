@@ -10,3 +10,15 @@ exports.registerMaterial = async (req, res) => {
     res.send(error);
   }
 };
+
+exports.addMaterialToProduct = async (materials, product) => {
+  try {
+    materials.each(material => {
+      const newMaterial = Material.findById(material);
+      newMaterial.productsList.push(product);
+      newMaterial.save();
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

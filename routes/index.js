@@ -1,14 +1,10 @@
 const express = require('express');
+const productController = require('../controllers/productController');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send('Hello World');
-});
-router.get('/users', (req, res) =>
-  res.json({
-    edwin: 'edwin',
-  })
-);
+router.get('/products', productController.getProducts);
+router.get('/products/:id', productController.getProduct);
+router.post('/products/register', productController.registerProduct);
 
 module.exports = router;
