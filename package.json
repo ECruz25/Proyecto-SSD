@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www.js",
+    "start": "nodemon ./bin/www.js",
     "server": "nodemon ./bin/www.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -48,6 +48,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.8.2",
     "expect": "^22.4.3",
+    "faker": "^4.1.0",
     "mocha": "^5.1.1",
     "prettier": "^1.12.1",
     "rewire": "^4.0.0",

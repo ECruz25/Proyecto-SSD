@@ -28,3 +28,12 @@ exports.registerProduct = async (req, res) => {
     res.send(error);
   }
 };
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const product = new Product(req.body);
+    await product.save();
+  } catch (error) {
+    res.send(error);
+  }
+};
