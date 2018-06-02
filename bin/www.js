@@ -21,10 +21,10 @@ mongoose.connection.once('open', () => {
 // require('../models/Customer');
 // require('../models/CustomerContract');
 // require('../models/Invoice');
-// require('../models/Material');
+require('../models/Material');
 require('../models/Product');
 // require('../models/PurchaseOrder');
-// require('../models/Supplier');
+require('../models/Supplier');
 // require('../models/SupplierContract');
 // require('../models/User');
 
