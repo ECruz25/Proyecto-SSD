@@ -12,5 +12,6 @@ router.post('/products/register', productController.registerProduct);
 // USADO PARA GENERAR INFORMACION ALEATORIA, NO USAR!
 // router.get('/suppliers/generateSuppliers', supplierController.generateSuppliers);
 // router.get('/materials/generateMaterials', materialController.generateMaterials);
+// router.get('/generateProducts', productController.generateProducts);
 
 module.exports = router;

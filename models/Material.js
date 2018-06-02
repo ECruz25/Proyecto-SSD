@@ -19,6 +19,10 @@ const materialSchema = new mongoose.Schema({
     type: [mongoose.Schema.ObjectId],
     ref: 'Product',
   },
+  supplier: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Supplier',
+  },
 });
 
 module.exports = mongoose.model('Material', materialSchema);
