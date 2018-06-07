@@ -15,7 +15,7 @@ exports.getProducts = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
   try {
-    const products = Product.findById(req.params.userId);
+    const products = Product.findById(req.params.id);
     res.send(products);
   } catch (error) {
     res.send(error);
