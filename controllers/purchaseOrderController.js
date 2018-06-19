@@ -55,9 +55,11 @@ exports.plan = async (req, res) => {
     }
     // consigue cuantos productos hacen falta para terminar todos los invoices
     const missingProducts = await productController.getMissingProducts(products);
-
+    console.log({ missingProducts });
     // consigue los materiales
     const materials = await productController.getMaterials(missingProducts);
+    console.log({ materials });
+
     // consigue los materialesId
     const materialsId = Object.keys(materials).map(material => material);
     // consigue los suppliers a los que se les tiene que pedir
@@ -71,19 +73,26 @@ exports.plan = async (req, res) => {
     });
 
     // console.log(req.user);
+    // console.log(materials);
     setTimeout(() => {
       const pendingPurchaseOrders = [];
       for (const supplier in suppliers) {
-        const materials = [];
+        const materialsId = [];
+        const materialsAmount = [];
         for (const material of suppliers[supplier]) {
-          materials.push(material._id);
+          if (materials[material._id] !== undefined) {
+            materialsId.push(material._id);
+            materialsAmount.push(materials[material._id]);
+          }
+          console.log(material._id, materials[material._id]);
         }
-        // console.log(materials);
+        // console.log(materialsId);
         const purchaseOrder = new PurchaseOrder({
           status: 'Pending Approval',
           supplier,
           user: req.user,
-          materialList: materials,
+          materialList: materialsId,
+          materialAmount: materialsAmount,
         });
         pendingPurchaseOrders.push(purchaseOrder);
         // console.log(purchaseOrder);

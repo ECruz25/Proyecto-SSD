@@ -26,6 +26,10 @@ const purchaseOrderSchema = new mongoose.Schema({
     type: [mongoose.Schema.ObjectId],
     ref: 'Material',
   },
+  materialAmount: {
+    type: [Number],
+    required: 'Please include amount',
+  },
 });
 
 module.exports = mongoose.model('PurchaseOrder', purchaseOrderSchema);
