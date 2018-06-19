@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const StyledProduct = styled.div`
+const StyledSupplier = styled.div`
   background-color: white;
   margin: 10px;
   display: grid;
@@ -10,16 +10,12 @@ const StyledProduct = styled.div`
   padding-top: 20px;
 `;
 
-class Product extends Component {
-  render() {
-    return (
-      <StyledProduct className="product">
-        <p>{this.props.name}</p>
-        <p>{this.props.amount}</p>
-        <p>{this.props.price}</p>
-      </StyledProduct>
-    );
-  }
-}
+const Supplier = () => (
+  <StyledSupplier className="supplier">
+    <p>{this.props.name}</p>
+    <p>{this.props.amount}</p>
+    <p>{this.props.price}</p>
+  </StyledSupplier>
+);
 
-export default Product;
+export default Supplier;

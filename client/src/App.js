@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import PurchaseOrderList from './components/PurchaseOrderList';
 import ProductList from './components/ProductList';
+import SupplierList from './components/SupplierList';
 import Nav from './components/Nav';
 
 const StyledApp = styled.div`
@@ -17,6 +18,7 @@ const App = () => (
       <Nav />
       <Switch>
         <Route path="/inventario" component={ProductList} />
+        <Route path="/proveedores" component={SupplierList} />
       </Switch>
     </StyledApp>
   </Router>
