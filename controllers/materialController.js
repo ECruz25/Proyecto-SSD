@@ -24,10 +24,10 @@ exports.getMaterials = async (req, res) => {
 
 exports.addMaterialToProduct = async (materials, product) => {
   try {
-    materials.each(material => {
-      const newMaterial = Material.findById(material);
+    materials.each(async material => {
+      const newMaterial = await Material.findById(material);
       newMaterial.productsList.push(product);
-      newMaterial.save();
+      await newMaterial.save();
     });
   } catch (error) {
     console.log(error);
@@ -70,6 +70,15 @@ exports.getMaterialList = async () => {
       }
     }
     return materialList;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getMaterialListBySupplier = async supplier => {
+  try {
+    const materials = await Material.find({ supplier });
+    return materials;
   } catch (error) {
     console.log(error);
   }

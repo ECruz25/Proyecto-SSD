@@ -13,3 +13,23 @@ const Supplier = mongoose.model('Supplier');
 //     }
 //   }
 // };
+
+// exports.getSuppliers = async () => {
+//   try {
+//     const suppliers = await Supplier.find();
+//     res.send(suppliers);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+exports.getSuppliers = async () => {
+  try {
+    const suppliers = await Supplier.find();
+    console.log('suppliers');
+
+    return suppliers;
+  } catch (error) {
+    console.log(error);
+  }
+};
