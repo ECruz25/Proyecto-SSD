@@ -18,7 +18,7 @@ const StyledSupplierHeader = styled.div`
 
 class SupplierList extends Component {
   state = {
-    suppliers: {}
+    suppliers: {},
   };
   async componentDidMount() {
     const response = await fetch('/suppliers');
@@ -39,6 +39,7 @@ class SupplierList extends Component {
             name={this.state.suppliers[key].name}
             id={this.state.suppliers[key]._id}
             className="card"
+            number={key}
           />
         ))}
       </div>

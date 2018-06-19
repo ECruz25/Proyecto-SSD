@@ -70,3 +70,22 @@ exports.generateProducts = async () => {
     }
   }
 };
+
+exports.getMissingProducts = async products => {
+  try {
+    const missingProductsPromise = Object.keys(products).map(async key => {
+      try {
+        const product = await Product.findById(key);
+        if (products[key] - product.amount > 0) {
+          return { id: key, amount: products[key] - product.amount };
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    const missingProducts = Promise.all(missingProductsPromise);
+    return missingProducts;
+  } catch (error) {
+    console.log(error);
+  }
+};

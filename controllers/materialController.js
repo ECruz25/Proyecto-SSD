@@ -75,14 +75,25 @@ exports.getMaterialList = async () => {
   }
 };
 
-exports.getMaterialListBySupplier = async supplier => {
+// exports.getMaterialListBySupplier = async supplier => {
+//   try {
+//     const materials = await Material.find({ supplier });
+//     return materials;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+exports.getMaterialListBySupplier = async (req, res) => {
   try {
-    const materials = await Material.find({ supplier });
-    return materials;
+    const materials = await Material.find({ supplier: req.params.id });
+    res.send(materials);
   } catch (error) {
     console.log(error);
   }
 };
+
+exports.getSuppliers = async missingProducts => {};
 
 exports.getTotalCost = async materialList => {
   let totalCost = 0;

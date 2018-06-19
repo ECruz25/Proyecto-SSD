@@ -4,6 +4,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MaterialList from './MaterialList';
 
 const StyledSupplier = styled.div`
   /* background-color: white; */
@@ -16,17 +17,21 @@ const StyledSupplier = styled.div`
 `;
 
 class Supplier extends Component {
-  state = { contract: {} };
+  state = {
+    contract: {},
+    materials: {},
+    expanded: null,
+  };
   async componentDidMount() {
     try {
       const response = await fetch(`/suppliers/${this.props.id}/contracts`);
       const contract = await response.json();
-      console.log(contract);
-      // const response2 = await fetch(`/suppliers/${this.props.id}/materials`);
-      // const materials = await response2.json();
+      const response2 = await fetch(`/suppliers/${this.props.id}/materials`);
+      const materials = await response2.json();
       this.setState({
         contract: contract[0],
         materialAmount: contract[0].materialList.length,
+        materials,
       });
       // console.log(this.state.contract[0].materialList);
     } catch (error) {
@@ -35,9 +40,20 @@ class Supplier extends Component {
     // const response3 = await fetch('/materials');
     // const materials = await response3.json();
   }
+
+  handleChange = panel => (event, expanded) => {
+    this.setState({
+      expanded: expanded ? panel : false,
+    });
+  };
+
   render() {
+    const { expanded } = this.state;
     return (
-      <ExpansionPanel>
+      <ExpansionPanel
+        expanded={expanded === `panel${this.props.number + 1}`}
+        onChange={this.handleChange(`panel${this.props.number + 1}`)}
+      >
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <StyledSupplier>
             <p>{this.props.name}</p>
@@ -45,7 +61,9 @@ class Supplier extends Component {
             <p>{this.state.contract.date}</p>
           </StyledSupplier>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>materials</ExpansionPanelDetails>
+        <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>
+          <MaterialList materials={this.state.materials} />
+        </ExpansionPanelDetails>
       </ExpansionPanel>
     );
   }

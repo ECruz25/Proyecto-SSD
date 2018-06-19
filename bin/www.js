@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
 require('dotenv').config({
-  path: 'variables.env',
+  path: 'variables.env'
 });
 
 mongoose.connect(
   process.env.DATABASE,
   {
-    useMongoClient: true,
+    useMongoClient: true
   }
 );
 mongoose.Promise = global.Promise;
@@ -18,15 +18,15 @@ mongoose.connection.once('open', () => {
   console.log('connected to mongoose');
 });
 
-// require('../models/Customer');
+require('../models/Customer');
 // require('../models/CustomerContract');
-// require('../models/Invoice');
+require('../models/Invoice');
 require('../models/Material');
 require('../models/Product');
 require('../models/PurchaseOrder');
 require('../models/Supplier');
 require('../models/SupplierContract');
-// require('../models/User');
+require('../models/User');
 
 const app = require('../app');
 const debug = require('debug')('coffee:server');
