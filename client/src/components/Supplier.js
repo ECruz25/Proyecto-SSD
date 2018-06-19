@@ -10,12 +10,30 @@ const StyledSupplier = styled.div`
   padding-top: 20px;
 `;
 
-const Supplier = () => (
-  <StyledSupplier className="supplier">
-    <p>{this.props.name}</p>
-    <p>{this.props.amount}</p>
-    <p>{this.props.price}</p>
-  </StyledSupplier>
-);
+class Supplier extends Component {
+  state = { contract: {} };
+  async componentDidMount() {
+    try {
+      const response = await fetch(`/suppliers/${this.props.id}/contracts`);
+      const contract = await response.json();
+      console.log(contract);
+      // const response2 = await fetch(`/suppliers/${this.props.id}/materials`);
+      // const materials = await response2.json();
+      this.setState({ contract });
+      // console.log(this.state.contract[0].materialList);
+    } catch (error) {
+      console.log(error);
+    }
+    // const response3 = await fetch('/materials');
+    // const materials = await response3.json();
+  }
+  render() {
+    return (
+      <StyledSupplier className="supplier">
+        <p>{this.props.name}</p>
+      </StyledSupplier>
+    );
+  }
+}
 
 export default Supplier;

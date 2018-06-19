@@ -17,7 +17,9 @@ const StyledSupplierHeader = styled.div`
 `;
 
 class SupplierList extends Component {
-  state = { suppliers: {} };
+  state = {
+    suppliers: {},
+  };
   async componentDidMount() {
     const response = await fetch('/suppliers');
     const suppliers = await response.json();
@@ -35,9 +37,7 @@ class SupplierList extends Component {
           <Supplier
             key={key}
             name={this.state.suppliers[key].name}
-            price={this.state.suppliers[key].price}
-            amount={this.state.suppliers[key].amount}
-            materialList={this.state.suppliers[key].materialList}
+            id={this.state.suppliers[key]._id}
             className="card"
           />
         ))}

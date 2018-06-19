@@ -11,6 +11,9 @@ router.get('/products', productController.getProducts);
 router.get('/products/:id', productController.getProduct);
 router.get('/purchaseOrders', purchaseOrderController.getPurchaseOrders);
 router.get('/materials', materialController.getMaterials);
+router.get('/suppliers', supplierController.getSuppliers);
+router.get('/suppliers/contracts', supplierContractController.getContracts);
+router.get('/suppliers/:id/contracts', supplierContractController.getContract);
 // router.post('/products/register', productController.registerProduct);
 
 // USADO PARA GENERAR INFORMACION ALEATORIA, NO USAR!

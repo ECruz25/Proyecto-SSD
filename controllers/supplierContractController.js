@@ -31,3 +31,23 @@ exports.createContract = async (req, res) => {
     res.send(error);
   }
 };
+
+exports.getContracts = async (req, res) => {
+  try {
+    const supplierContracts = await SupplierContract.find();
+    res.send(supplierContracts);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getContract = async (req, res) => {
+  try {
+    const supplierContracts = await SupplierContract.find({
+      supplier: req.params.id,
+    });
+    res.send(supplierContracts);
+  } catch (error) {
+    console.log(error);
+  }
+};
