@@ -13,6 +13,15 @@ exports.registerMaterial = async (req, res) => {
   }
 };
 
+exports.getMaterials = async (req, res) => {
+  try {
+    const materials = await Material.find();
+    res.send(materials);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.addMaterialToProduct = async (materials, product) => {
   try {
     materials.each(material => {

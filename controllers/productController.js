@@ -55,7 +55,7 @@ exports.generateProducts = async () => {
         price: (await materialController.getTotalCost(materialList)) * 1.3,
         amount: Math.floor(Math.random() * 100 + 1),
         materialList,
-        materialAmount
+        materialAmount,
       });
       const existingProduct = await Product.find({ name: product.name });
       if (existingProduct[0]) {
