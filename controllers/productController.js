@@ -55,7 +55,7 @@ exports.generateProducts = async () => {
         price: (await materialController.getTotalCost(materialList)) * 1.3,
         amount: Math.floor(Math.random() * 100 + 1),
         materialList,
-        materialAmount,
+        materialAmount
       });
       const existingProduct = await Product.find({ name: product.name });
       if (existingProduct[0]) {
@@ -68,6 +68,34 @@ exports.generateProducts = async () => {
     } catch (error) {
       console.log(error);
     }
+  }
+};
+
+exports.getMaterials = async products => {
+  try {
+    const productsArray = [];
+    for (const product of products) {
+      productsArray.push(await Product.findById(product.id));
+    }
+    const productsMaterials = {};
+    productsArray.map(product => {
+      product.materialList.map((material, index) => {
+        productsMaterials[material] = 0;
+        // console.log(index, material);
+      });
+    });
+    productsArray.map(product => {
+      product.materialList.map((material, index) => {
+        productsMaterials[material] =
+          productsMaterials[material] + product.materialAmount[index];
+        // console.log(index, material);
+      });
+    });
+    // console.log(productsMaterials);
+    // const products = ;
+    return productsMaterials;
+  } catch (error) {
+    console.log(error);
   }
 };
 

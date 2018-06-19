@@ -43,7 +43,7 @@ exports.generateMaterials = async () => {
         cost: faker.commerce.price(),
         description: `${faker.commerce.color()} ${faker.commerce.productAdjective()} ${faker.commerce.productMaterial()}`,
         amount: Math.floor(Math.random() * 100 + 1),
-        supplier: suppliers[Math.floor(Math.random() * suppliers.length + 1)],
+        supplier: suppliers[Math.floor(Math.random() * suppliers.length + 1)]
       });
       const existingMaterial = await Material.find({ name: material.name });
       if (existingMaterial[0]) {
@@ -93,7 +93,34 @@ exports.getMaterialListBySupplier = async (req, res) => {
   }
 };
 
-exports.getSuppliers = async missingProducts => {};
+exports.getMaterialListBySupplier2 = async supplierId => {
+  try {
+    // console.log(supplierId);
+    const materials = await Material.find({ supplier: supplierId });
+    // console.log(materials);
+    return materials;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getSuppliers = async materials => {
+  try {
+    const suppliersPromise = materials.map(async material => {
+      try {
+        const materialP = await Material.findById(material);
+        return await materialP.supplier;
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    const suppliers = Promise.all(suppliersPromise);
+    // console.log(suppliers);
+    return suppliers;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 exports.getTotalCost = async materialList => {
   let totalCost = 0;
