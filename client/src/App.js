@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import styled from 'styled-components';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import PurchaseOrders from './components/PurchaseOrder/PurchaseOrders';
+import PurchaseOrders2 from './components/PurchaseOrder/PurchaseOrders2';
+import PurchaseOrders3 from './components/PurchaseOrder/PurchaseOrders3';
+import ProductList from './components/Product/ProductList';
+import SupplierList from './components/SupplierList';
+import Dashboard from './components/Dashboard';
+import Nav from './components/Nav';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+const StyledApp = styled.div`
+  display: grid;
+  grid-template-columns: 20% 80%;
+`;
+
+const App = () => (
+  <Router>
+    <StyledApp className="App">
+      <Nav />
+      <Switch>
+        <Route path="/" component={Dashboard} exact />
+        <Route path="/inventario" component={ProductList} />
+        <Route path="/proveedores" component={SupplierList} />
+        <Route path="/ordenes/planeacion" component={PurchaseOrders} />
+        <Route path="/ordenes/abiertas" component={PurchaseOrders2} />
+        <Route path="/ordenes/vencidas" component={PurchaseOrders3} />
+      </Switch>
+    </StyledApp>
+  </Router>
+);
 
 export default App;

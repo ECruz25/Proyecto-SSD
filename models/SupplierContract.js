@@ -12,6 +12,17 @@ const supplierContractSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  materialList: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'Material',
+  },
+  penalty: {
+    type: Number,
+  },
+  incompleteContract: {
+    type: Number,
+  },
+  amountOfDays: { type: [Number] },
 });
 
 module.exports = mongoose.model('SupplierContract', supplierContractSchema);

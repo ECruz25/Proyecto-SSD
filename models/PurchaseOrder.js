@@ -9,7 +9,7 @@ const purchaseOrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    default: 'In transit',
+    default: 'Open',
   },
   dateCompleted: {
     type: Date,
@@ -25,6 +25,17 @@ const purchaseOrderSchema = new mongoose.Schema({
   materialList: {
     type: [mongoose.Schema.ObjectId],
     ref: 'Material',
+  },
+  materialAmount: {
+    type: [Number],
+    required: 'Please include amount',
+  },
+  total: {
+    type: Number,
+  },
+  invoices: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'Invoice',
   },
 });
 

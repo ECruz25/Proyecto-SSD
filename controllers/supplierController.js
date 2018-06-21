@@ -13,3 +13,39 @@ const Supplier = mongoose.model('Supplier');
 //     }
 //   }
 // };
+
+exports.getSuppliers = async (req, res) => {
+  try {
+    const suppliers = await Supplier.find();
+    res.send(suppliers);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getSupplier = async (req, res) => {
+  try {
+    const supplier = await Supplier.findById(req.params.id);
+    res.send(supplier);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getSupplier2 = async id => {
+  try {
+    const supplier = await Supplier.findById(id);
+    return supplier;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getSuppliers2 = async () => {
+  try {
+    const suppliers = await Supplier.find();
+    return suppliers;
+  } catch (error) {
+    console.log(error);
+  }
+};

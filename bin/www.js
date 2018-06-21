@@ -18,15 +18,15 @@ mongoose.connection.once('open', () => {
   console.log('connected to mongoose');
 });
 
-// require('../models/Customer');
-// require('../models/CustomerContract');
-// require('../models/Invoice');
+require('../models/Customer');
+require('../models/CustomerContract');
+require('../models/Invoice');
 require('../models/Material');
 require('../models/Product');
-// require('../models/PurchaseOrder');
+require('../models/PurchaseOrder');
 require('../models/Supplier');
-// require('../models/SupplierContract');
-// require('../models/User');
+require('../models/SupplierContract');
+require('../models/User');
 
 const app = require('../app');
 const debug = require('debug')('coffee:server');
