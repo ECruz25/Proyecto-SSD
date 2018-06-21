@@ -62,7 +62,7 @@ class Supplier extends Component {
           </StyledSupplier>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>
-          <MaterialList materials={this.state.materials} />
+          <MaterialList materials={this.state.materials} days={this.state.contract.amountOfDays} />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );

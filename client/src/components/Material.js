@@ -12,7 +12,7 @@ class Material extends Component {
     return (
       <StyledMaterial>
         <p>{this.props.name}</p>
-        <p>{this.props.description}</p>
+        <p>{this.props.days}</p>
         <p>{`$ ${this.props.cost / 100}`}</p>
       </StyledMaterial>
     );

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const faker = require('faker');
+const moment = require('moment');
 
 const PurchaseOrder = mongoose.model('PurchaseOrder');
 const Supplier = mongoose.model('Supplier');
@@ -119,6 +120,9 @@ exports.plan = async (req, res) => {
           materialAmount: materialsAmount,
           total,
           invoices: pendingInvoices,
+          dateToBeComplete: moment()
+            .add(7, 'days')
+            .calendar(),
         });
         // await purchaseOrder.save();
         pendingPurchaseOrders.push(purchaseOrder);
@@ -266,9 +270,15 @@ exports.getExpiredGraphs = async (req, res) => {
   }
 };
 
-const executeContracts = async (req, res) => {
+exports.executeContracts = async () => {
   try {
     const purchaseOrders = await PurchaseOrder.find({ status: 'Open' });
+    for (const purchaseOrder of purchaseOrders) {
+      if (purchaseOrder.dateToBeComplete < moment().format()) {
+        purchaseOrder.status = 'Expired';
+        await purchaseOrder.save();
+      }
+    }
   } catch (error) {
     console.log(error);
   }

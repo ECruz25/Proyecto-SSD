@@ -67,11 +67,6 @@ class Nav extends Component {
             </ListItem>
           </List>
         </Collapse>
-        <NavLink style={{ textDecoration: 'none' }} activeClassName="nav-item-selected" to="/contratos">
-          <ListItem button>
-            <ListItemText inset primary="Contratos" />
-          </ListItem>
-        </NavLink>
         <NavLink style={{ textDecoration: 'none' }} activeClassName="nav-item-selected" to="/proveedores">
           <ListItem button>
             <ListItemText inset primary="Proveedores" />

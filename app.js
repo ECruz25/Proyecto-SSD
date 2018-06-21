@@ -8,6 +8,8 @@ const session = require('express-session');
 const promisify = require('es6-promisify');
 require('./handlers/passport');
 const index = require('./routes/index');
+const schedule = require('node-schedule');
+const purchaseOrderController = require('./controllers/purchaseOrderController');
 
 const app = express();
 
@@ -35,5 +37,17 @@ app.use((req, res, next) => {
 });
 
 app.use('/', index);
+
+const job = schedule.scheduleJob(
+  {
+    hour: 2,
+    minute: 0,
+    dayOfWeek: [0, 1, 2, 3, 4, 5, 6],
+  },
+  async () => {
+    await purchaseOrderController.executeContracts;
+  }
+);
+console.log(job.nextInvocation());
 
 module.exports = app;

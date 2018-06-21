@@ -40,10 +40,7 @@ class PurchaseOrder extends Component {
           </StyledPurchaseOrder>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>
-          <MaterialList
-            materials={this.props.materialList}
-            materialAmount={this.props.materialAmount}
-          />
+          <MaterialList materials={this.props.materialList} materialAmount={this.props.materialAmount} />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
