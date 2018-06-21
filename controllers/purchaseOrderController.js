@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 
 const PurchaseOrder = mongoose.model('PurchaseOrder');
+const Supplier = mongoose.model('Supplier');
 const Product = mongoose.model('Product');
 
 const invoiceController = require('../controllers/invoiceController');
@@ -77,7 +78,7 @@ exports.plan = async (req, res) => {
     // console.log(products);
     // consigue cuantos productos hacen falta para terminar todos los invoices
     const missingProducts = await productController.getMissingProducts(products);
-    // console.log({ missingProducts });
+    console.log({ missingProducts });
     // consigue los materiales
     const materials = await productController.getMaterials(missingProducts);
     // console.log({ materials });
@@ -111,13 +112,15 @@ exports.plan = async (req, res) => {
         // console.log(materialsId);
         const total = await materialController.getTotalCost(materialsId, materialsAmount);
         const purchaseOrder = new PurchaseOrder({
-          status: 'Pending Approval',
+          status: 'Esperando Autorizacion',
           supplier,
           user: req.user,
           materialList: materialsId,
           materialAmount: materialsAmount,
           total,
+          invoices: pendingInvoices,
         });
+        // await purchaseOrder.save();
         pendingPurchaseOrders.push(purchaseOrder);
         // console.log(purchaseOrder);
       }
@@ -210,18 +213,62 @@ const generatePurchaseOrders = async productList => {
 exports.getExpiredGraphs = async (req, res) => {
   try {
     const data = [];
+    // const supplier = await Supplier.findOne();
     const suppliers = await supplierController.getSuppliers2();
+    // const purchaseOrders = await PurchaseOrder.find({
+    //   status: 'Expired',
+    //   supplier: supplier._id,
+    // });
+    // const purchaseOrders2 = await PurchaseOrder.find({
+    //   status: 'Complete',
+    //   supplier: supplier._id,
+    // });
+    // data.push({
+    //   id: 'Expired',
+    //   label: 'Expired',
+    //   value: Object.keys(purchaseOrders).length,
+    //   color: 'hsl(311, 70%, 50%)',
+    // });
+    // data.push({
+    //   id: 'Complete',
+    //   label: 'Complete',
+    //   value: Object.keys(purchaseOrders2).length,
+    //   color: 'hsl(248, 70%, 50%)',
+    // });
     for (const supplier of suppliers) {
+      const data2 = [];
       const purchaseOrders = await PurchaseOrder.find({
         status: 'Expired',
         supplier: supplier._id,
       });
-      data.push({
-        supplier: supplier.name,
-        cantidad: Object.keys(purchaseOrders).length,
+      const purchaseOrders2 = await PurchaseOrder.find({
+        status: 'Complete',
+        supplier: supplier._id,
       });
+      data2.push({
+        id: 'Expired',
+        label: 'Expired',
+        value: Object.keys(purchaseOrders).length,
+        color: 'hsl(311, 70%, 50%)',
+        name: supplier.name,
+      });
+      data2.push({
+        id: 'Complete',
+        label: 'Complete',
+        value: Object.keys(purchaseOrders2).length,
+        color: 'hsl(248, 70%, 50%)',
+      });
+      data.push(data2);
     }
     res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const executeContracts = async (req, res) => {
+  try {
+    const purchaseOrders = await PurchaseOrder.find({ status: 'Open' });
   } catch (error) {
     console.log(error);
   }

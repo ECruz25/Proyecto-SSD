@@ -16,6 +16,12 @@ const supplierContractSchema = new mongoose.Schema({
     type: [mongoose.Schema.ObjectId],
     ref: 'Material',
   },
+  penalty: {
+    type: Number,
+  },
+  incompleteContract: {
+    type: Number,
+  },
   amountOfDays: { type: [Number] },
 });
 

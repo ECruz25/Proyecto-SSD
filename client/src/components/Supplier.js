@@ -57,8 +57,8 @@ class Supplier extends Component {
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <StyledSupplier>
             <p>{this.props.name}</p>
-            <p>{this.state.materialAmount}</p>
-            <p>{this.state.contract.date}</p>
+            <p>{`$ ${this.state.contract.penalty}`}</p>
+            <p>{`$ ${this.state.contract.incompleteContract}`}</p>
           </StyledSupplier>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>

@@ -33,6 +33,10 @@ const purchaseOrderSchema = new mongoose.Schema({
   total: {
     type: Number,
   },
+  invoices: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'Invoice',
+  },
 });
 
 module.exports = mongoose.model('PurchaseOrder', purchaseOrderSchema);

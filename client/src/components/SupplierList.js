@@ -7,7 +7,7 @@ const StyledSupplierHeader = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   color: #838383;
-  font-size: 24px;
+  font-size: 18px;
   font-style: bold;
   background-color: white;
   border-bottom: 2px solid #c8c8c8;
@@ -18,7 +18,7 @@ const StyledSupplierHeader = styled.div`
 
 class SupplierList extends Component {
   state = {
-    suppliers: {},
+    suppliers: {}
   };
   async componentDidMount() {
     const response = await fetch('/suppliers');
@@ -30,8 +30,8 @@ class SupplierList extends Component {
       <div className="suppliers">
         <StyledSupplierHeader>
           <h3>Nombre</h3>
-          <h3>Cantidad de Materiales</h3>
-          <h3>Fecha de Contrato</h3>
+          <h3>Costo de Penalidad</h3>
+          <h3>Cancelacion de Contrato</h3>
         </StyledSupplierHeader>
         {Object.keys(this.state.suppliers).map(key => (
           <Supplier
