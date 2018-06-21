@@ -20,12 +20,12 @@ const App = () => (
     <StyledApp className="App">
       <Nav />
       <Switch>
-        <Route path="/" component={Dashboard} />
+        <Route path="/" component={Dashboard} exact />
         <Route path="/inventario" component={ProductList} />
         <Route path="/proveedores" component={SupplierList} />
-        <Route path="/ordenes/planeacion" component={PurchaseOrders} exact />
-        <Route path="/ordenes/abiertas" component={PurchaseOrders2} exact />
-        <Route path="/ordenes/vencidas" component={PurchaseOrders3} exact />
+        <Route path="/ordenes/planeacion" component={PurchaseOrders} />
+        <Route path="/ordenes/abiertas" component={PurchaseOrders2} />
+        <Route path="/ordenes/vencidas" component={PurchaseOrders3} />
       </Switch>
     </StyledApp>
   </Router>

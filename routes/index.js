@@ -6,6 +6,7 @@ const purchaseOrderController = require('../controllers/purchaseOrderController'
 const supplierContractController = require('../controllers/supplierContractController');
 const userController = require('../controllers/userController');
 const customerController = require('../controllers/customerController');
+const customerContractController = require('../controllers/customerContractController');
 const invoiceController = require('../controllers/invoiceController');
 
 const router = express.Router();
@@ -13,9 +14,11 @@ const router = express.Router();
 // router.get('/customer/register', customerController.register);
 // router.get('/invoice/create', invoiceController.create);
 router.get('/invoice/pending', invoiceController.getPendingInvoices);
+router.get('/invoice/create', invoiceController.create);
 router.get('/products', productController.getProducts);
 router.get('/products/:id', productController.getProduct);
 router.get('/purchaseOrders', purchaseOrderController.getPurchaseOrders);
+router.get('/purchaseOrders/getExpiredData', purchaseOrderController.getExpiredGraphs);
 router.get('/purchaseOrders/plan', purchaseOrderController.plan);
 router.get('/purchaseOrders/open', purchaseOrderController.getOpen);
 router.get('/purchaseOrders/expired', purchaseOrderController.getExpired);
@@ -34,5 +37,7 @@ router.get('/suppliers/:id/materials', materialController.getMaterialListBySuppl
 // router.get('/generateProducts', productController.generateProducts);
 // router.get('/', supplierContractController.createContract);
 // router.get('/purchaseOrders/random', purchaseOrderController.generateRandomPurchaseOrders);
+// router.get('/customer/generate', customerController.register);
+// router.get('/customerContract/generate', customerContractController.register);
 
 module.exports = router;

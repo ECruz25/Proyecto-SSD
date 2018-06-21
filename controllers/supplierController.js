@@ -32,13 +32,20 @@ exports.getSupplier = async (req, res) => {
   }
 };
 
-// exports.getSuppliers = async () => {
-//   try {
-//     const suppliers = await Supplier.find();
-//     console.log('suppliers');
+exports.getSupplier2 = async id => {
+  try {
+    const supplier = await Supplier.findById(id);
+    return supplier;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-//     return suppliers;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+exports.getSuppliers2 = async () => {
+  try {
+    const suppliers = await Supplier.find();
+    return suppliers;
+  } catch (error) {
+    console.log(error);
+  }
+};

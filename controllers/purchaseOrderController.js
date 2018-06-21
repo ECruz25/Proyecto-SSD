@@ -206,3 +206,23 @@ const generatePurchaseOrders = async productList => {
     console.log(pendingPurchaseOrders);
   }, 1000);
 };
+
+exports.getExpiredGraphs = async (req, res) => {
+  try {
+    const data = [];
+    const suppliers = await supplierController.getSuppliers2();
+    for (const supplier of suppliers) {
+      const purchaseOrders = await PurchaseOrder.find({
+        status: 'Expired',
+        supplier: supplier._id,
+      });
+      data.push({
+        supplier: supplier.name,
+        cantidad: Object.keys(purchaseOrders).length,
+      });
+    }
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
