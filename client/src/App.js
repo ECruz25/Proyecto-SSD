@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import PurchaseOrderList from './components/PurchaseOrderList';
-import ProductList from './components/ProductList';
+import PurchaseOrders from './components/PurchaseOrder/PurchaseOrders';
+import PurchaseOrders2 from './components/PurchaseOrder/PurchaseOrders2';
+import PurchaseOrders3 from './components/PurchaseOrder/PurchaseOrders3';
+import ProductList from './components/Product/ProductList';
 import SupplierList from './components/SupplierList';
+import Dashboard from './components/Dashboard';
 import Nav from './components/Nav';
 
 const StyledApp = styled.div`
@@ -17,8 +20,12 @@ const App = () => (
     <StyledApp className="App">
       <Nav />
       <Switch>
+        <Route path="/" component={Dashboard} />
         <Route path="/inventario" component={ProductList} />
         <Route path="/proveedores" component={SupplierList} />
+        <Route path="/ordenes/planeacion" component={PurchaseOrders} exact />
+        <Route path="/ordenes/abiertas" component={PurchaseOrders2} exact />
+        <Route path="/ordenes/vencidas" component={PurchaseOrders3} exact />
       </Switch>
     </StyledApp>
   </Router>

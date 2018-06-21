@@ -22,6 +22,15 @@ exports.getMaterials = async (req, res) => {
   }
 };
 
+exports.getMaterial = async (req, res) => {
+  try {
+    const materials = await Material.findById(req.params.id);
+    res.send(materials);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.addMaterialToProduct = async (materials, product) => {
   try {
     materials.each(async material => {
@@ -43,7 +52,7 @@ exports.generateMaterials = async () => {
         cost: faker.commerce.price(),
         description: `${faker.commerce.color()} ${faker.commerce.productAdjective()} ${faker.commerce.productMaterial()}`,
         amount: Math.floor(Math.random() * 100 + 1),
-        supplier: suppliers[Math.floor(Math.random() * suppliers.length + 1)]
+        supplier: suppliers[Math.floor(Math.random() * suppliers.length + 1)],
       });
       const existingMaterial = await Material.find({ name: material.name });
       if (existingMaterial[0]) {
@@ -109,7 +118,12 @@ exports.getSuppliers = async materials => {
     const suppliersPromise = materials.map(async material => {
       try {
         const materialP = await Material.findById(material);
-        return await materialP.supplier;
+        // console.log(materialP);
+        if (materialP === null) {
+          console.log(material);
+        } else {
+          return await materialP.supplier;
+        }
       } catch (error) {
         console.log(error);
       }
@@ -122,12 +136,12 @@ exports.getSuppliers = async materials => {
   }
 };
 
-exports.getTotalCost = async materialList => {
+exports.getTotalCost = async (materialList, amount) => {
   let totalCost = 0;
   try {
     for (let y = 0; y < materialList.length; y++) {
       const material = await Material.findById(materialList[y]);
-      totalCost += material.cost;
+      totalCost += material.cost * amount[y];
     }
     return totalCost;
   } catch (error) {

@@ -21,10 +21,12 @@ class Product extends Component {
           <StyledProduct className="product">
             <p>{this.props.name}</p>
             <p>{this.props.amount}</p>
-            <p>{this.props.price}</p>
+            <p>{`$ ${this.props.price}`}</p>
           </StyledProduct>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>{<MaterialList materials={this.props.materialList} />}</ExpansionPanelDetails>
+        <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>
+          {<MaterialList materials={this.props.materialList} materialAmount={this.props.materialAmount} />}
+        </ExpansionPanelDetails>
       </ExpansionPanel>
     );
   }

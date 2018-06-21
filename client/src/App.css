@@ -23,6 +23,14 @@
   font-size: large;
 }
 
+.nav-item-selected {
+  color: #0124a0;
+}
+
+.menu-nested {
+  background-color: red;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

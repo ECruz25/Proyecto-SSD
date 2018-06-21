@@ -11,6 +11,7 @@
     "test-watch": "nodemon --exec 'npm test'"
   },
   "dependencies": {
+    "@nivo/bar": "^0.42.1",
     "body-parser": "~1.18.2",
     "concurrently": "^3.5.1",
     "connect-ensure-login": "^0.1.1",

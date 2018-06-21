@@ -23,6 +23,15 @@ exports.getSuppliers = async (req, res) => {
   }
 };
 
+exports.getSupplier = async (req, res) => {
+  try {
+    const supplier = await Supplier.findById(req.params.id);
+    res.send(supplier);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // exports.getSuppliers = async () => {
 //   try {
 //     const suppliers = await Supplier.find();

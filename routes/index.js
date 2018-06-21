@@ -17,9 +17,13 @@ router.get('/products', productController.getProducts);
 router.get('/products/:id', productController.getProduct);
 router.get('/purchaseOrders', purchaseOrderController.getPurchaseOrders);
 router.get('/purchaseOrders/plan', purchaseOrderController.plan);
+router.get('/purchaseOrders/open', purchaseOrderController.getOpen);
+router.get('/purchaseOrders/expired', purchaseOrderController.getExpired);
 router.get('/materials', materialController.getMaterials);
+router.get('/materials/:id', materialController.getMaterial);
 router.get('/suppliers', supplierController.getSuppliers);
 router.get('/suppliers/contracts', supplierContractController.getContracts);
+router.get('/suppliers/:id', supplierController.getSupplier);
 router.get('/suppliers/:id/contracts', supplierContractController.getContract);
 router.get('/suppliers/:id/materials', materialController.getMaterialListBySupplier);
 // router.post('/products/register', productController.registerProduct);
@@ -29,5 +33,6 @@ router.get('/suppliers/:id/materials', materialController.getMaterialListBySuppl
 // router.get('/materials/generateMaterials', materialController.generateMaterials);
 // router.get('/generateProducts', productController.generateProducts);
 // router.get('/', supplierContractController.createContract);
+// router.get('/purchaseOrders/random', purchaseOrderController.generateRandomPurchaseOrders);
 
 module.exports = router;

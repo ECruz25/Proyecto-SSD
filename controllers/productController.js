@@ -41,7 +41,7 @@ exports.deleteProduct = async (req, res) => {
 };
 
 exports.generateProducts = async () => {
-  console.log(await materialController.getMaterialList());
+  // console.log(await materialController.getMaterialList());
   for (let x = 0; x < 15; x++) {
     try {
       const materials = await materialController.getMaterialList();
@@ -60,7 +60,7 @@ exports.generateProducts = async () => {
       const existingProduct = await Product.find({ name: product.name });
       if (existingProduct[0]) {
         x--;
-        console.log('No entre');
+        // console.log('No entre');
       } else {
         // console.log(existingMaterial[0].name, material.name);
         await product.save();
@@ -73,10 +73,15 @@ exports.generateProducts = async () => {
 
 exports.getMaterials = async products => {
   try {
+    // console.log(products);
     const productsArray = [];
+    const productsAmount = [];
+    // console.log(products);
     for (const product of products) {
       productsArray.push(await Product.findById(product.id));
+      productsAmount.push(product.amount);
     }
+    // console.log(productsArray);
     const productsMaterials = {};
     productsArray.map(product => {
       product.materialList.map((material, index) => {
@@ -84,15 +89,13 @@ exports.getMaterials = async products => {
         // console.log(index, material);
       });
     });
-    productsArray.map(product => {
+    productsArray.map((product, index2) => {
       product.materialList.map((material, index) => {
         productsMaterials[material] =
-          productsMaterials[material] + product.materialAmount[index];
-        // console.log(index, material);
+          productsMaterials[material] +
+          product.materialAmount[index] * productsAmount[index2];
       });
     });
-    // console.log(productsMaterials);
-    // const products = ;
     return productsMaterials;
   } catch (error) {
     console.log(error);

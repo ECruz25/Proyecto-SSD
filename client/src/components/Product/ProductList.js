@@ -7,8 +7,10 @@ const StyledProductHeader = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   color: #838383;
-  font-size: 24px;
-  font-style: bold;
+  h3 {
+    font-size: 18px;
+    font-style: bold;
+  }
   background-color: white;
   border-bottom: 2px solid #c8c8c8;
   border-top: 2px solid #c8c8c8;
@@ -38,6 +40,7 @@ class ProductList extends Component {
             price={this.state.products[key].price}
             amount={this.state.products[key].amount}
             materialList={this.state.products[key].materialList}
+            materialAmount={this.state.products[key].materialAmount}
             className="card"
           />
         ))}
