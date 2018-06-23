@@ -294,6 +294,64 @@ exports.getExpiredGraphs = async (req, res) => {
   }
 };
 
+exports.getExpiredPObyMonthAndSupplier = async (req, res) => {
+  try {
+    const data = [];
+    // const supplier = await Supplier.findOne();
+    const suppliers = await supplierController.getSuppliers2();
+    for (const supplier of suppliers) {
+      const data2 = [];
+      const purchaseOrders = await PurchaseOrder.find({
+        status: 'Expired',
+        supplier: supplier._id,
+      });
+      const monthData = [
+        { x: 'January', y: 0 },
+        { x: 'February', y: 0 },
+        { x: 'March', y: 0 },
+        { x: 'April', y: 0 },
+        { x: 'May', y: 0 },
+        { x: 'June', y: 0 },
+        { x: 'July', y: 0 },
+        { x: 'August', y: 0 },
+        { x: 'September', y: 0 },
+        { x: 'October', y: 0 },
+        { x: 'November', y: 0 },
+        { x: 'December', y: 0 },
+      ];
+      const yearlyData = [{ x: 2015, y: 0 }, { x: 2016, y: 0 }, { x: 2017, y: 0 }, { x: 2018, y: 0 }];
+
+      for (const purchaseOrder of purchaseOrders) {
+        console.log(moment(purchaseOrder.date, 'MM-DD-YYYY').format('YYYY') - 2015);
+        yearlyData[moment(purchaseOrder.date, 'MM-DD-YYYY').format('YYYY') - 2015].y++;
+      }
+      // for (const purchaseOrder of purchaseOrders) {
+      //   monthData[moment(purchaseOrder.date, 'MM-DD-YYYY').format('MM') - 1].y++;
+      // }
+      // console.log(yearlyData);
+
+      data2.push({
+        id: supplier.name,
+        data: yearlyData,
+        name: supplier.name,
+      });
+      // console.log(data2.yearly);
+      data.push(data2);
+    }
+    // console.log(data);
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getMostExpiredMaterials = async () => {
+  try {
+    const materials = {};
+    const purchaseOrders = await PurchaseOrder.find({ status: 'Expired' });
+  } catch (error) {}
+};
+
 exports.executeContracts = async () => {
   try {
     const purchaseOrders = await PurchaseOrder.find({ status: 'Open' });

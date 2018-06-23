@@ -20,6 +20,7 @@ router.get('/products/:id', productController.getProduct);
 router.get('/purchaseOrders', purchaseOrderController.getPurchaseOrders);
 router.post('/purchaseOrders/register', purchaseOrderController.registerPurchaseOrder);
 router.get('/purchaseOrders/getData', purchaseOrderController.getExpiredGraphs);
+router.get('/purchaseOrders/getExpiredDataByMonth', purchaseOrderController.getExpiredPObyMonthAndSupplier);
 router.get('/purchaseOrders/plan', purchaseOrderController.plan);
 router.get('/purchaseOrders/open', purchaseOrderController.getOpen);
 router.get('/purchaseOrders/expired', purchaseOrderController.getExpired);
