@@ -19,23 +19,17 @@ const StyledProductHeader = styled.div`
 `;
 
 class ProductList extends Component {
-  state = { products: {} };
-  async componentDidMount() {
-    const response = await fetch('/products');
-    const products = await response.json();
-    this.setState({ products });
-  }
   render() {
     return (
       <div className="products">
-        {Object.keys(this.state.products).map(key => (
+        {Object.keys(this.props.products).map(key => (
           <Product
             key={key}
-            name={this.state.products[key].name}
-            price={this.state.products[key].price}
-            amount={this.state.products[key].amount}
-            materialList={this.state.products[key].materialList}
-            materialAmount={this.state.products[key].materialAmount}
+            name={this.props.products[key].name}
+            price={this.props.products[key].price}
+            amount={this.props.products[key].amount}
+            materialList={this.props.products[key].materialList}
+            materialAmount={this.props.products[key].materialAmount}
             className="card"
           />
         ))}
