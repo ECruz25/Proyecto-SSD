@@ -6,7 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 
 import Graphs from './Graphs';
-import { option } from '@oclif/parser/lib/flags';
 
 const StyledDashboard = styled.div`
   height: 100vh;
@@ -63,7 +62,6 @@ class Dashboard extends Component {
   render() {
     return (
       <StyledDashboard>
-        {/* <Graphs data2={this.state.data2} /> */}
         <div
           className="options"
           style={{

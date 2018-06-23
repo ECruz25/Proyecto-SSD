@@ -345,11 +345,37 @@ exports.getExpiredPObyMonthAndSupplier = async (req, res) => {
   }
 };
 
-exports.getMostExpiredMaterials = async () => {
+exports.getMostExpiredMaterials = async (req, res) => {
   try {
     const materials = {};
     const purchaseOrders = await PurchaseOrder.find({ status: 'Expired' });
-  } catch (error) {}
+    for (const purchaseOrder of purchaseOrders) {
+      purchaseOrder.materialList.map((key, index) => {
+        // console.log(index);
+        materials[key] = 0;
+      });
+    }
+    for (const purchaseOrder of purchaseOrders) {
+      purchaseOrder.materialList.map(key => {
+        // console.log(index);
+        materials[key]++;
+      });
+    }
+    const data = [];
+    const materialsSorted = Object.keys(materials).sort((a, b) => materials[a] - materials[b]);
+    const finalMaterials = {};
+    for (let x = 0; x < 10; x++) {
+      const name = await materialController.getMaterial2(materialsSorted[x]);
+      data.push({
+        nombre: name,
+        cantidad: materials[materialsSorted[x]],
+      });
+    }
+    console.log(finalMaterials);
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.executeContracts = async () => {

@@ -30,6 +30,14 @@ exports.getMaterial = async (req, res) => {
     console.log(error);
   }
 };
+exports.getMaterial2 = async id => {
+  try {
+    const materials = await Material.findById(id);
+    return materials.name;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 exports.addMaterialToProduct = async (materials, product) => {
   try {
