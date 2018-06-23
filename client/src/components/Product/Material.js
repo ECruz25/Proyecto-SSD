@@ -23,7 +23,7 @@ class Material extends Component {
       <StyledMaterial>
         <p>{this.state.material.name}</p>
         <p>{this.state.material.description}</p>
-        <p>{this.props.amount}</p>
+        <p>{`${this.props.amount} / ${this.state.material.amount}`}</p>
         <p>{`$ ${this.state.material.cost / 100}`}</p>
         <p>{`$ ${(this.state.material.cost * this.props.amount) / 100}`}</p>
       </StyledMaterial>

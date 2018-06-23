@@ -8,9 +8,10 @@ exports.create = async (req, res) => {
   try {
     const customersObject = await Customer.find();
     const productsObject = await Product.find();
-    for (let z = 0; z < 400; z++) {
+    for (let z = 0; z < 100; z++) {
       const customerKey = Math.floor(Math.random() * Object.keys(customersObject).length - 1 + 1);
-      const status = Math.floor(Math.random() * 10 + 1) === 1 ? 'Expired' : 'Complete';
+      // const status = Math.floor(Math.random() * 10 + 1) === 1 ? 'Expired' : 'Complete';Pending
+      const status = 'Pending';
       const amountOfProducts = Math.floor(Math.random() * 30 + 1);
       const products = [];
       const productsAmount = [];
@@ -19,8 +20,12 @@ exports.create = async (req, res) => {
         const productKey = Math.floor(Math.random() * 29 + 1);
         const key = Object.keys(productsObject)[productKey];
         const product = productsObject[key];
-        products.push(product._id.toString());
-        productsAmount.push(amountOfProduct);
+        if (!products.includes(product._id.toString())) {
+          products.push(product._id.toString());
+          productsAmount.push(amountOfProduct);
+        } else {
+          console.log('no se creo');
+        }
       }
       const key2 = Object.keys(customersObject)[customerKey];
       const customer = customersObject[key2];
@@ -31,6 +36,7 @@ exports.create = async (req, res) => {
         productAmount: productsAmount,
         status,
       });
+      // console.log(invoice);
       await invoice.save();
     }
   } catch (error) {

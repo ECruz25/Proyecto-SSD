@@ -49,9 +49,10 @@ exports.getPurchaseOrder = async (req, res) => {
 
 exports.registerPurchaseOrder = async (req, res) => {
   try {
+    req.body.status = 'Open';
     const purchaseOrder = new PurchaseOrder(req.body);
-    purchaseOrder.status = 'Open';
     await purchaseOrder.save();
+    res.sendStatus(200);
   } catch (error) {
     res.send(error);
   }
@@ -66,26 +67,68 @@ exports.deletePurchaseOrder = async (req, res) => {
   }
 };
 
+const getMaterialsInOpenOrders = async () => {
+  try {
+    const materials = {};
+    const purchaseOrders = await PurchaseOrder.find({ status: 'Open' || 'Expired' }, 'materialList materialAmount');
+    Object.keys(purchaseOrders).map((key, index) => {
+      purchaseOrders[key].materialList.map((key2, index2) => {
+        materials[purchaseOrders[key].materialList[index2]] = 0;
+      });
+    });
+
+    Object.keys(purchaseOrders).map((key, index) => {
+      purchaseOrders[key].materialList.map((key2, index2) => {
+        materials[purchaseOrders[key].materialList[index2]] += purchaseOrders[key].materialAmount[index2];
+      });
+    });
+    return materials;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.plan = async (req, res) => {
   try {
     // agarra todos los invoices que esten pending
     const pendingInvoices = await invoiceController.getPendingInvoices();
+    console.log(pendingInvoices);
     const products = {};
     for (const pendingInvoice of pendingInvoices) {
       for (let x = 0; x < pendingInvoice.productList.length; x++) {
-        products[pendingInvoice.productList[x]] = pendingInvoice.productAmount[x];
+        products[pendingInvoice.productList[x]] = 0;
       }
+
+      // console.log({ products });
     }
-    // console.log(products);
+    for (const pendingInvoice of pendingInvoices) {
+      for (let x = 0; x < pendingInvoice.productList.length; x++) {
+        products[pendingInvoice.productList[x]] += pendingInvoice.productAmount[x];
+      }
+
+      // console.log({ products });
+    }
+    // console.log({ products });
     // consigue cuantos productos hacen falta para terminar todos los invoices
     const missingProducts = await productController.getMissingProducts(products);
-    console.log({ missingProducts });
+
+    console.log(missingProducts);
     // consigue los materiales
     const materials = await productController.getMaterials(missingProducts);
-    // console.log({ materials });
+    const materialsInOpenOrders = await getMaterialsInOpenOrders();
+    const finalMaterials = {};
+    Object.keys(materials).map(key => {
+      // console.log(materials[key]);
+      const amount = materials[key] - materialsInOpenOrders[key];
+      if (amount > 0) {
+        finalMaterials[key] = materials[key] - materialsInOpenOrders[key];
+      }
+      //  ? materials[key] - materialsInOpenOrders[key] : null;
+    });
+    // console.log({ finalMaterials }, { materialsInOpenOrders });
 
     // consigue los materialesId
-    const materialsId = Object.keys(materials).map(material => material);
+    const materialsId = Object.keys(finalMaterials).map(material => material);
     // consigue los suppliers a los que se les tiene que pedir
     const suppliersDuplicate = await materialController.getSuppliers(materialsId);
 
@@ -104,9 +147,9 @@ exports.plan = async (req, res) => {
         const materialsId = [];
         const materialsAmount = [];
         for (const material of suppliers[supplier]) {
-          if (materials[material._id] !== undefined) {
+          if (finalMaterials[material._id] !== undefined) {
             materialsId.push(material._id);
-            materialsAmount.push(materials[material._id]);
+            materialsAmount.push(finalMaterials[material._id]);
           }
           // console.log(material._id, materials[material._id]);
         }
@@ -128,6 +171,7 @@ exports.plan = async (req, res) => {
         pendingPurchaseOrders.push(purchaseOrder);
         // console.log(purchaseOrder);
       }
+      // console.log(pendingPurchaseOrders);
       res.send(pendingPurchaseOrders);
     }, 1000);
     // console.log(pendingPurchaseOrders);
@@ -210,7 +254,7 @@ const generatePurchaseOrders = async productList => {
       // pendingPurchaseOrders.push(purchaseOrder);
       // console.log(purchaseOrder);
     }
-    console.log(pendingPurchaseOrders);
+    // console.log(pendingPurchaseOrders);
   }, 1000);
 };
 
@@ -219,26 +263,6 @@ exports.getExpiredGraphs = async (req, res) => {
     const data = [];
     // const supplier = await Supplier.findOne();
     const suppliers = await supplierController.getSuppliers2();
-    // const purchaseOrders = await PurchaseOrder.find({
-    //   status: 'Expired',
-    //   supplier: supplier._id,
-    // });
-    // const purchaseOrders2 = await PurchaseOrder.find({
-    //   status: 'Complete',
-    //   supplier: supplier._id,
-    // });
-    // data.push({
-    //   id: 'Expired',
-    //   label: 'Expired',
-    //   value: Object.keys(purchaseOrders).length,
-    //   color: 'hsl(311, 70%, 50%)',
-    // });
-    // data.push({
-    //   id: 'Complete',
-    //   label: 'Complete',
-    //   value: Object.keys(purchaseOrders2).length,
-    //   color: 'hsl(248, 70%, 50%)',
-    // });
     for (const supplier of suppliers) {
       const data2 = [];
       const purchaseOrders = await PurchaseOrder.find({
