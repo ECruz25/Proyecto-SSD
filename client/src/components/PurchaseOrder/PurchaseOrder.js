@@ -17,12 +17,32 @@ const StyledPurchaseOrder = styled.div`
 `;
 
 class PurchaseOrder extends Component {
+  constructor() {
+    super();
+    this.sendOrder = this.sendOrder.bind(this);
+  }
   state = { supplier: {} };
   async componentDidMount() {
     try {
       const response = await fetch(`/suppliers/${this.props.supplier}`);
       const supplier = await response.json();
       this.setState({ supplier });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async sendOrder() {
+    // console.log('apreeeteee');
+    try {
+      await fetch(`/purchaseOrders/register/`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify(this.props.purchaseOrder),
+      });
+      console.log(this.props.purchaseOrder);
     } catch (error) {
       console.log(error);
     }
@@ -36,11 +56,14 @@ class PurchaseOrder extends Component {
             <p>{this.props.status}</p>
             <p>{this.props.materialList.length}</p>
             <p>{`$ ${this.props.total / 100}`}</p>
-            <button disabled="disabled">Enviar</button>
           </StyledPurchaseOrder>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>
-          <MaterialList materials={this.props.materialList} materialAmount={this.props.materialAmount} />
+          <MaterialList
+            materials={this.props.materialList}
+            materialAmount={this.props.materialAmount}
+            sendOrder={this.sendOrder}
+          />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );

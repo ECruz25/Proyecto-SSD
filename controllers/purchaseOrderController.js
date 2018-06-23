@@ -49,9 +49,10 @@ exports.getPurchaseOrder = async (req, res) => {
 
 exports.registerPurchaseOrder = async (req, res) => {
   try {
+    req.body.status = 'Open';
     const purchaseOrder = new PurchaseOrder(req.body);
-    purchaseOrder.status = 'Open';
     await purchaseOrder.save();
+    res.sendStatus(200);
   } catch (error) {
     res.send(error);
   }
@@ -159,6 +160,7 @@ exports.plan = async (req, res) => {
         pendingPurchaseOrders.push(purchaseOrder);
         // console.log(purchaseOrder);
       }
+      console.log(pendingPurchaseOrders);
       res.send(pendingPurchaseOrders);
     }, 1000);
     // console.log(pendingPurchaseOrders);
@@ -250,26 +252,6 @@ exports.getExpiredGraphs = async (req, res) => {
     const data = [];
     // const supplier = await Supplier.findOne();
     const suppliers = await supplierController.getSuppliers2();
-    // const purchaseOrders = await PurchaseOrder.find({
-    //   status: 'Expired',
-    //   supplier: supplier._id,
-    // });
-    // const purchaseOrders2 = await PurchaseOrder.find({
-    //   status: 'Complete',
-    //   supplier: supplier._id,
-    // });
-    // data.push({
-    //   id: 'Expired',
-    //   label: 'Expired',
-    //   value: Object.keys(purchaseOrders).length,
-    //   color: 'hsl(311, 70%, 50%)',
-    // });
-    // data.push({
-    //   id: 'Complete',
-    //   label: 'Complete',
-    //   value: Object.keys(purchaseOrders2).length,
-    //   color: 'hsl(248, 70%, 50%)',
-    // });
     for (const supplier of suppliers) {
       const data2 = [];
       const purchaseOrders = await PurchaseOrder.find({

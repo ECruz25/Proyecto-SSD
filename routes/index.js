@@ -18,6 +18,7 @@ router.get('/invoice/create', invoiceController.create);
 router.get('/products', productController.getProducts);
 router.get('/products/:id', productController.getProduct);
 router.get('/purchaseOrders', purchaseOrderController.getPurchaseOrders);
+router.post('/purchaseOrders/register', purchaseOrderController.registerPurchaseOrder);
 router.get('/purchaseOrders/getData', purchaseOrderController.getExpiredGraphs);
 router.get('/purchaseOrders/plan', purchaseOrderController.plan);
 router.get('/purchaseOrders/open', purchaseOrderController.getOpen);

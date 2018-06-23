@@ -9,6 +9,7 @@ class PurchaseOrderList extends Component {
       <div className="PurchaseOrderList">
         {Object.keys(this.props.purchaseOrders).map(key => (
           <PurchaseOrder
+            purchaseOrder={this.props.purchaseOrders[key]}
             key={key}
             id={this.props.purchaseOrders[key]._id}
             supplier={this.props.purchaseOrders[key].supplier}
