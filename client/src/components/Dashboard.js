@@ -23,13 +23,16 @@ class Dashboard extends Component {
     super();
     this.onSupplierChange = this.onSupplierChange.bind(this);
     this.onDiagramChange = this.onDiagramChange.bind(this);
+    this.onBarDiagramChange = this.onBarDiagramChange.bind(this);
   }
   state = {
     data: {},
     data2: {},
     data3: {},
-    selectedSupplier: 0,
+    data4: {},
+    selectedSupplier: '0',
     selectedDiagram: 'bar',
+    selectedBarD: '1',
   };
   async componentDidMount() {
     try {
@@ -39,7 +42,9 @@ class Dashboard extends Component {
       const data2 = await response2.json();
       const response3 = await fetch('/purchaseOrders/getExpiredDataByMonth');
       const data3 = await response3.json();
-      this.setState({ data, data2, data3 });
+      const response4 = await fetch('/purchaseOrders/getMostExpiredMaterials');
+      const data4 = await response4.json();
+      this.setState({ data, data2, data3, data4 });
       console.log(data2);
       // this.setState({ data2 });
     } catch (error) {
@@ -51,6 +56,9 @@ class Dashboard extends Component {
   }
   onDiagramChange(e) {
     this.setState({ selectedDiagram: e.target.value });
+  }
+  onBarDiagramChange(e) {
+    this.setState({ selectedBarD: e.target.value });
   }
   render() {
     return (
@@ -81,6 +89,24 @@ class Dashboard extends Component {
               <MenuItem value="line">Linea</MenuItem>
             </Select>
           </FormControl>
+          {this.state.selectedDiagram === 'bar' && (
+            <FormControl autoComplete="off">
+              <InputLabel htmlFor="type-simple">Diagrama</InputLabel>
+              <Select
+                onChange={this.onBarDiagramChange}
+                name="type"
+                id="type"
+                value={this.state.selectedBarD}
+                inputProps={{
+                  name: 'type',
+                  id: 'type-simple',
+                }}
+              >
+                <MenuItem value="1">Costo de Contrato</MenuItem>
+                <MenuItem value="2">Materiales mas veces vencidos </MenuItem>
+              </Select>
+            </FormControl>
+          )}
           {this.state.selectedDiagram === 'pie' && (
             <FormControl autoComplete="off">
               <InputLabel htmlFor="supplierSelect-simple">Proveedor</InputLabel>
@@ -128,12 +154,15 @@ class Dashboard extends Component {
         <Graphs
           data={
             this.state.selectedDiagram === 'bar'
-              ? this.state.data
+              ? this.state.selectedBarD === 1
+                ? this.state.data
+                : this.state.data4
               : this.state.selectedDiagram === 'pie'
                 ? this.state.data2[this.state.selectedSupplier]
                 : this.state.data3[this.state.selectedSupplier]
           }
           type={this.state.selectedDiagram}
+          bFormat={this.state.selectedBarD}
         />
       </StyledDashboard>
     );

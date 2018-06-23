@@ -63,8 +63,8 @@ class Graphs extends Component {
         {this.props.type === 'bar' && (
           <ResponsiveBar
             data={this.props.data}
-            keys={['cantidad', 'penalidad']}
-            indexBy="supplier"
+            keys={this.props.bFormat === '1' ? ['cantidad', 'penalidad'] : ['cantidad']}
+            indexBy="name"
             margin={{
               top: 50,
               right: 130,
