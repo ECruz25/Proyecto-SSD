@@ -18,7 +18,7 @@ class MaterialList extends Component {
         {Object.keys(this.props.materials).map(key => (
           <Material key={key} id={this.props.materials[key]} amount={this.props.materialAmount[key]} />
         ))}
-        <button onClick={this.props.sendOrder}>Enviar</button>
+        <button onClick={this.props.sendOrder}>Aprobar</button>
       </StyledMaterialList>
     );
   }

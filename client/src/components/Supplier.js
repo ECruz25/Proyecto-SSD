@@ -57,8 +57,18 @@ class Supplier extends Component {
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <StyledSupplier>
             <p>{this.props.name}</p>
-            <p>{`$ ${this.state.contract.penalty}`}</p>
-            <p>{`$ ${this.state.contract.incompleteContract}`}</p>
+            <p>
+              {new Intl.NumberFormat('en', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(this.state.contract.penalty)}
+            </p>
+            <p>
+              {new Intl.NumberFormat('en', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(this.state.contract.incompleteContract)}
+            </p>
           </StyledSupplier>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>

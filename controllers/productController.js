@@ -73,20 +73,18 @@ exports.generateProducts = async () => {
 
 exports.getMaterials = async products => {
   try {
-    // console.log(products);
     const productsArray = [];
     const productsAmount = [];
-    // console.log(products);
     for (const product of products) {
+      console.log(product);
       productsArray.push(await Product.findById(product.id));
       productsAmount.push(product.amount);
     }
-    // console.log(productsArray);
+    // console.log(productsAmount);
     const productsMaterials = {};
     productsArray.map(product => {
       product.materialList.map((material, index) => {
         productsMaterials[material] = 0;
-        // console.log(index, material);
       });
     });
     productsArray.map((product, index2) => {
@@ -105,11 +103,19 @@ exports.getMissingProducts = async products => {
   try {
     const missingProductsPromise = Object.keys(products).map(async key => {
       try {
+        // console.log(key, products[key]);
         const product = await Product.findById(key);
+        // console.log('====================================');
+        // console.log(key, products[key], product.amount);
+        // console.log('====================================');
         if (products[key] - product.amount > 0) {
+          // console.log('Aca si');
           return { id: key, amount: products[key] - product.amount };
         }
+        return { id: key, amount: 0 };
       } catch (error) {
+        console.error(`Error en el key${key}`);
+
         console.log(error);
       }
     });

@@ -92,16 +92,27 @@ exports.plan = async (req, res) => {
   try {
     // agarra todos los invoices que esten pending
     const pendingInvoices = await invoiceController.getPendingInvoices();
+    console.log(pendingInvoices);
     const products = {};
     for (const pendingInvoice of pendingInvoices) {
       for (let x = 0; x < pendingInvoice.productList.length; x++) {
-        products[pendingInvoice.productList[x]] = pendingInvoice.productAmount[x];
+        products[pendingInvoice.productList[x]] = 0;
       }
+
+      // console.log({ products });
     }
-    // console.log(products);
+    for (const pendingInvoice of pendingInvoices) {
+      for (let x = 0; x < pendingInvoice.productList.length; x++) {
+        products[pendingInvoice.productList[x]] += pendingInvoice.productAmount[x];
+      }
+
+      // console.log({ products });
+    }
+    // console.log({ products });
     // consigue cuantos productos hacen falta para terminar todos los invoices
     const missingProducts = await productController.getMissingProducts(products);
-    // console.log({ missingProducts });
+
+    console.log(missingProducts);
     // consigue los materiales
     const materials = await productController.getMaterials(missingProducts);
     const materialsInOpenOrders = await getMaterialsInOpenOrders();
@@ -160,7 +171,7 @@ exports.plan = async (req, res) => {
         pendingPurchaseOrders.push(purchaseOrder);
         // console.log(purchaseOrder);
       }
-      console.log(pendingPurchaseOrders);
+      // console.log(pendingPurchaseOrders);
       res.send(pendingPurchaseOrders);
     }, 1000);
     // console.log(pendingPurchaseOrders);

@@ -55,7 +55,12 @@ class PurchaseOrder extends Component {
             <p>{this.state.supplier.name}</p>
             <p>{this.props.status}</p>
             <p>{this.props.materialList.length}</p>
-            <p>{`$ ${this.props.total / 100}`}</p>
+            <p>
+              {new Intl.NumberFormat('en', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(this.props.total)}
+            </p>
           </StyledPurchaseOrder>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ backgroundColor: '#E5E5E5' }}>
