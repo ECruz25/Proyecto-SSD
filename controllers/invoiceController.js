@@ -48,3 +48,8 @@ exports.getPendingInvoices = async () => {
   const invoices = await Invoice.find({ status: 'Pending' });
   return invoices;
 };
+
+exports.getPendingInvoices2 = async (req, res) => {
+  const invoices = await Invoice.find({ status: 'Pending' });
+  res.send(invoices);
+};

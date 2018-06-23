@@ -10,3 +10,8 @@ exports.register = async (req, res) => {
     await customer.save();
   }
 };
+
+exports.getCustomer = async (req, res) => {
+  const customer = await Customer.findById(req.params.id);
+  res.send(customer);
+};

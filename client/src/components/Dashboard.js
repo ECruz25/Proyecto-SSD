@@ -152,7 +152,7 @@ class Dashboard extends Component {
         <Graphs
           data={
             this.state.selectedDiagram === 'bar'
-              ? this.state.selectedBarD === 1
+              ? this.state.selectedBarD === '1'
                 ? this.state.data
                 : this.state.data4
               : this.state.selectedDiagram === 'pie'

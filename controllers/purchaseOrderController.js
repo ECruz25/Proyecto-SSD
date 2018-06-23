@@ -381,7 +381,7 @@ exports.getMostExpiredMaterials = async (req, res) => {
 exports.executeContracts = async () => {
   try {
     const purchaseOrders = await PurchaseOrder.find({ status: 'Open' });
-    for (const purchaseOrder of purchaseOrders) {
+    for (const purchaseOrder of purcnamehaseOrders) {
       if (purchaseOrder.dateToBeComplete < moment().format()) {
         purchaseOrder.status = 'Expired';
         await purchaseOrder.save();
