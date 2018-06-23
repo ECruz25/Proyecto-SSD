@@ -70,9 +70,9 @@ class Nav extends Component {
             <ListItemText inset primary="Proveedores" />
           </ListItem>
         </NavLink>
-        {/* <NavLink style={{ textDecoration: 'none' }} activeClassName="nav-item-selected" to="/materiales">
+        {/* <NavLink style={{ textDecoration: 'none' }} activeClassName="nav-item-selected" to="/facturas">
           <ListItem button>
-            <ListItemText inset primary="Materiales" />
+            <ListItemText inset primary="Facturas" />
           </ListItem>
         </NavLink> */}
       </List>

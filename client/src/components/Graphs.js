@@ -64,7 +64,7 @@ class Graphs extends Component {
           <ResponsiveBar
             data={this.props.data}
             keys={this.props.bFormat === '1' ? ['cantidad', 'penalidad'] : ['cantidad']}
-            indexBy="name"
+            indexBy={this.props.bFormat === '1' ? 'supplier' : 'nombre'}
             margin={{
               top: 50,
               right: 130,
@@ -115,7 +115,7 @@ class Graphs extends Component {
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: 'Proveedor',
+              legend: this.props.bFormat === '1' ? 'Proveedor' : 'Material',
               legendPosition: 'center',
               legendOffset: 36,
             }}
@@ -124,7 +124,7 @@ class Graphs extends Component {
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: 'Costo',
+              legend: this.props.bFormat === '1' ? 'Costo' : 'Cantidad',
               legendPosition: 'center',
               legendOffset: -40,
             }}
