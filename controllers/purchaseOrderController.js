@@ -66,6 +66,27 @@ exports.deletePurchaseOrder = async (req, res) => {
   }
 };
 
+const getMaterialsInOpenOrders = async () => {
+  try {
+    const materials = {};
+    const purchaseOrders = await PurchaseOrder.find({ status: 'Open' || 'Expired' }, 'materialList materialAmount');
+    Object.keys(purchaseOrders).map((key, index) => {
+      purchaseOrders[key].materialList.map((key2, index2) => {
+        materials[purchaseOrders[key].materialList[index2]] = 0;
+      });
+    });
+
+    Object.keys(purchaseOrders).map((key, index) => {
+      purchaseOrders[key].materialList.map((key2, index2) => {
+        materials[purchaseOrders[key].materialList[index2]] += purchaseOrders[key].materialAmount[index2];
+      });
+    });
+    return materials;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.plan = async (req, res) => {
   try {
     // agarra todos los invoices que esten pending
@@ -79,13 +100,23 @@ exports.plan = async (req, res) => {
     // console.log(products);
     // consigue cuantos productos hacen falta para terminar todos los invoices
     const missingProducts = await productController.getMissingProducts(products);
-    console.log({ missingProducts });
+    // console.log({ missingProducts });
     // consigue los materiales
     const materials = await productController.getMaterials(missingProducts);
-    // console.log({ materials });
+    const materialsInOpenOrders = await getMaterialsInOpenOrders();
+    const finalMaterials = {};
+    Object.keys(materials).map(key => {
+      // console.log(materials[key]);
+      const amount = materials[key] - materialsInOpenOrders[key];
+      if (amount > 0) {
+        finalMaterials[key] = materials[key] - materialsInOpenOrders[key];
+      }
+      //  ? materials[key] - materialsInOpenOrders[key] : null;
+    });
+    // console.log({ finalMaterials }, { materialsInOpenOrders });
 
     // consigue los materialesId
-    const materialsId = Object.keys(materials).map(material => material);
+    const materialsId = Object.keys(finalMaterials).map(material => material);
     // consigue los suppliers a los que se les tiene que pedir
     const suppliersDuplicate = await materialController.getSuppliers(materialsId);
 
@@ -104,9 +135,9 @@ exports.plan = async (req, res) => {
         const materialsId = [];
         const materialsAmount = [];
         for (const material of suppliers[supplier]) {
-          if (materials[material._id] !== undefined) {
+          if (finalMaterials[material._id] !== undefined) {
             materialsId.push(material._id);
-            materialsAmount.push(materials[material._id]);
+            materialsAmount.push(finalMaterials[material._id]);
           }
           // console.log(material._id, materials[material._id]);
         }
@@ -210,7 +241,7 @@ const generatePurchaseOrders = async productList => {
       // pendingPurchaseOrders.push(purchaseOrder);
       // console.log(purchaseOrder);
     }
-    console.log(pendingPurchaseOrders);
+    // console.log(pendingPurchaseOrders);
   }, 1000);
 };
 
