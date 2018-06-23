@@ -16,6 +16,7 @@ class Invoice extends Component {
   async componentDidMount() {
     const response = await fetch(`/customer/${this.props.customer}`);
     const customer = await response.json();
+    console.log(customer);
     this.setState({ customer });
   }
   render() {
