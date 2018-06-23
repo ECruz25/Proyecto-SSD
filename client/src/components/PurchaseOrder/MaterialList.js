@@ -8,9 +8,7 @@ const StyledMaterialList = styled.div`
 `;
 
 class MaterialList extends Component {
-  sendOrder = e => {
-    console.log(e);
-  };
+  state = { approved: false };
 
   render() {
     return (
@@ -18,7 +16,9 @@ class MaterialList extends Component {
         {Object.keys(this.props.materials).map(key => (
           <Material key={key} id={this.props.materials[key]} amount={this.props.materialAmount[key]} />
         ))}
-        <button onClick={this.props.sendOrder}>Aprobar</button>
+        <button onClick={this.props.sendOrder} disabled={this.props.approved}>
+          Aprobar
+        </button>
       </StyledMaterialList>
     );
   }

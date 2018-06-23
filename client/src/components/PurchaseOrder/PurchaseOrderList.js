@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import PurchaseOrder from './PurchaseOrder';
 import LoadingHOC from '../HOC/LoadingHOC';
 
@@ -18,6 +17,7 @@ class PurchaseOrderList extends Component {
             materialAmount={this.props.purchaseOrders[key].materialAmount}
             date={this.props.purchaseOrders[key].date}
             total={this.props.purchaseOrders[key].total}
+            approved={this.props.approved}
           />
         ))}
       </div>

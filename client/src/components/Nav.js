@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-import StarBorder from '@material-ui/icons/StarBorder';
 
-const StyledNav = styled.ul`
-  margin-top: 30px;
-  .nav-item {
-    list-style-type: none;
-    text-align: start;
-    margin-top: 2rem;
-    a {
-      text-decoration: none;
-      color: #858585;
-    }
-    .nav-item-selected {
-      color: #0124a0;
-    }
-  }
-`;
+// const StyledNav = styled.ul`
+//   margin-top: 30px;
+//   .nav-item {
+//     list-style-type: none;
+//     text-align: start;
+//     margin-top: 2rem;
+//     a {
+//       text-decoration: none;
+//       color: #858585;
+//     }
+//     .nav-item-selected {
+//       color: #0124a0;
+//     }
+//   }
+// `;
 
 class Nav extends Component {
   state = { open: true };
@@ -72,11 +70,11 @@ class Nav extends Component {
             <ListItemText inset primary="Proveedores" />
           </ListItem>
         </NavLink>
-        <NavLink style={{ textDecoration: 'none' }} activeClassName="nav-item-selected" to="/materiales">
+        {/* <NavLink style={{ textDecoration: 'none' }} activeClassName="nav-item-selected" to="/materiales">
           <ListItem button>
             <ListItemText inset primary="Materiales" />
           </ListItem>
-        </NavLink>
+        </NavLink> */}
       </List>
     );
   }

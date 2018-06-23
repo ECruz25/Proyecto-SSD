@@ -21,7 +21,7 @@ class PurchaseOrder extends Component {
     super();
     this.sendOrder = this.sendOrder.bind(this);
   }
-  state = { supplier: {} };
+  state = { supplier: {}, approved: false };
   async componentDidMount() {
     try {
       const response = await fetch(`/suppliers/${this.props.supplier}`);
@@ -33,6 +33,7 @@ class PurchaseOrder extends Component {
   }
   async sendOrder() {
     // console.log('apreeeteee');
+    this.setState({ approved: true });
     try {
       await fetch(`/purchaseOrders/register/`, {
         headers: {
@@ -68,6 +69,7 @@ class PurchaseOrder extends Component {
             materials={this.props.materialList}
             materialAmount={this.props.materialAmount}
             sendOrder={this.sendOrder}
+            approved={this.state.approved}
           />
         </ExpansionPanelDetails>
       </ExpansionPanel>
